@@ -21,7 +21,7 @@ build_impl: clean create_debug_dir
 	@$(CC) $(CFLAGS_DEBUG) $(SRC)/impl.c -o $(DEBUG_OBJ_DIR)/impl.o
 
 build_debug: build_main build_asm build_impl
-	@$(LINKER) -m32 $(DEBUG_OBJ_DIR)/main.o $(DEBUG_OBJ_DIR)/funcs.o $(DEBUG_OBJ_DIR)/impl.o -o $(DEBUG_BIN_DIR)/main
+	@$(LINKER) -m32 $(DEBUG_OBJ_DIR)/main.o $(DEBUG_OBJ_DIR)/funcs.o $(DEBUG_OBJ_DIR)/impl.o -o $(DEBUG_BIN_DIR)/integral
 
 build_main: clean create_debug_dir
 	@$(CC) $(CFLAGS_DEBUG) $(SRC)/main.c -o $(DEBUG_OBJ_DIR)/main.o
