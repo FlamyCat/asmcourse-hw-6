@@ -239,16 +239,8 @@ void run_tests() {
     test_roots();
 }
 
-void display_verdict(double eps, double expected, double abs_error) {
-    if (abs_error <= eps)
-        printf("\tТест пройден\n");
-    else
-        printf("\tТест провален\n");
-
-    printf("\n");
-    printf("\tАбсолютная ошибка: %f\n", abs_error);
-    printf("\tАбсолютная ошибка: %f\n", abs_error);
-    printf("\tОтносительная ошибка: %f\n", abs_error / expected);
+void display_verdict(double actual, double expected, double abs_error) {
+    printf("%lf %lf %lf\n", actual, abs_error, abs_error / expected);
 }
 
 void handle_root_flag(int iterations_flag) {
@@ -270,8 +262,6 @@ void handle_root_flag(int iterations_flag) {
 }
 
 bool handle_test_root(int iterations_flag, char* root_test_options, int* value) {
-    printf("=== Тестирование root ===\n");
-
     if (root_test_options == NULL) {
         printf("Ошибка: параметр не задан\n");
         *value = 1;
@@ -316,22 +306,16 @@ bool handle_test_root(int iterations_flag, char* root_test_options, int* value) 
         break;
     }
 
-    int total_iters;
-    // test_root_against(eps, correct, a, b, q, w, 0, &total_iters);
     root_results actual = root(q, w, a, b, eps);
     double abs_error = fabs(actual.root - expected);
-    printf("Найденный корень: %f\n", actual.root);
-
-    display_verdict(eps, expected, abs_error);
+    display_verdict(actual.root, expected, abs_error);
 
     if (iterations_flag)
-        printf("\tКоличество итераций: %d\n", actual.iterations);
+        printf("Количество итераций: %d\n", actual.iterations);
     return false;
 }
 
 bool handle_test_integral(char* integral_test_options, int* value) {
-    printf("=== Тестирование integral ===\n");
-
     if (integral_test_options == NULL) {
         printf("Ошибка: параметр не задан\n");
         *value = 1;
@@ -362,7 +346,7 @@ bool handle_test_integral(char* integral_test_options, int* value) {
     double actual = integral(*q, a, b);
 
     double abs_error = fabs(expected - actual);
-    display_verdict(eps, expected, abs_error);
+    display_verdict(actual, expected, abs_error);
     return false;
 }
 
