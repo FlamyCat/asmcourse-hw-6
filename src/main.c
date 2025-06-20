@@ -46,6 +46,16 @@ void display_answer() {
     printf("%f", total_integral(root1, root2, root3, EPS));
 }
 
+void display_answer_with_iterations() {
+    double root1;
+    double root2;
+    double root3;
+    int iterations;
+    find_roots(&root1, &root2, &root3, &iterations);
+
+    printf("%f %d", total_integral(root1, root2, root3, EPS), iterations);
+}
+
 void display_verdict(double actual, double expected, double abs_error) {
     printf("%lf %lf %lf\n", actual, abs_error, abs_error / expected);
 }
@@ -157,6 +167,18 @@ bool handle_test_integral(const char* integral_test_options, int* value) {
     return false;
 }
 
+void print_help() {
+    printf("Справка\n"
+        "\t-h, --help - вывести это сообщение\n"
+        "\t-r, --root - напечатать абсциссы точек пересечения кривых\n"
+        "\t-i, --iterations - напечатать число итераций, потребовавшихся на приближенное решение "
+        "уравнений при поиске точек пересечения\n"
+        "\t-R, --test-root F1:F2:A:B:E:R, где F1, F2 — номера используемых функций, A, B, E — значения "
+        "параметров a, b, eps1 функции root, R - правильный ответ - протестировать функцию root\n"
+        "\t-I, --test-integral F:A:B:E:R, где F — номера используемой функций, A, B, E — значения параметров "
+        "a, b, eps2 функции integral, R — правильный ответ - протестировать функцию integral\n");
+}
+
 int main(int argc, char** argv) {
     if (argc == 1) {
         display_answer();
@@ -167,9 +189,10 @@ int main(int argc, char** argv) {
     int iterations_flag = 0;
     int test_root_flag = 0;
     int test_integral_flag = 0;
+    int help_flag = 0;
 
     struct option options[] = {
-        {"help", no_argument, 0, 1},
+        {"help", no_argument, &help_flag, 1},
         {"root", no_argument, &root_flag, 1},
         {"iterations", no_argument, &iterations_flag, 1},
         {"test-root", required_argument, &test_root_flag, 1},
@@ -187,15 +210,7 @@ int main(int argc, char** argv) {
 
         switch (opt) {
         case 'h':
-            printf("Справка\n"
-                "\t-h, --help - вывести это сообщение\n"
-                "\t-r, --root - напечатать абсциссы точек пересечения кривых\n"
-                "\t-i, --iterations - напечатать число итераций, потребовавшихся на приближенное решение "
-                "уравнений при поиске точек пересечения\n"
-                "\t-R, --test-root F1:F2:A:B:E:R, где F1, F2 — номера используемых функций, A, B, E — значения "
-                "параметров a, b, eps1 функции root, R - правильный ответ - протестировать функцию root\n"
-                "\t-I, --test-integral F:A:B:E:R, где F — номера используемой функций, A, B, E — значения параметров "
-                "a, b, eps2 функции integral, R — правильный ответ - протестировать функцию integral\n");
+            print_help();
             break;
 
         case 'r':
@@ -203,7 +218,8 @@ int main(int argc, char** argv) {
             break;
         case 'i':
             iterations_flag = 1;
-            break;
+            display_answer_with_iterations();
+            return 0;
         case 'R':
             root_test_options = optarg;
             // Функция вернет true, если root_test_options == null
@@ -221,6 +237,16 @@ int main(int argc, char** argv) {
         default:
             break;
         }
+    }
+
+    if (iterations_flag) {
+        display_answer_with_iterations();
+        return 0;
+    }
+
+    if (help_flag) {
+        print_help();
+        return 0;
     }
 
     if (root_flag) {
