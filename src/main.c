@@ -43,7 +43,7 @@ void display_answer() {
     double root3;
     find_roots(&root1, &root2, &root3, NULL);
 
-    printf("%f", total_integral(root1, root2, root3, EPS));
+    printf("%f\n", total_integral(root1, root2, root3, EPS));
 }
 
 void display_answer_with_iterations() {
