@@ -18,16 +18,16 @@ create_debug_dir:
 	@mkdir -p $(DEBUG_BIN_DIR)
 
 build_impl: clean create_debug_dir
-	@$(CC) $(CFLAGS_DEBUG) $(SRC)/impl.c -o $(DEBUG_OBJ_DIR)/impl.o
+	$(CC) $(CFLAGS_DEBUG) $(SRC)/impl.c -o $(DEBUG_OBJ_DIR)/impl.o
 
 build_debug: build_main build_asm build_impl
-	@$(LINKER) -m32 $(DEBUG_OBJ_DIR)/main.o $(DEBUG_OBJ_DIR)/funcs.o $(DEBUG_OBJ_DIR)/impl.o -o integral
+	$(LINKER) -m32 $(DEBUG_OBJ_DIR)/main.o $(DEBUG_OBJ_DIR)/funcs.o $(DEBUG_OBJ_DIR)/impl.o -o integral
 
 build_main: clean create_debug_dir
-	@$(CC) $(CFLAGS_DEBUG) $(SRC)/main.c -o $(DEBUG_OBJ_DIR)/main.o
+	$(CC) $(CFLAGS_DEBUG) $(SRC)/main.c -o $(DEBUG_OBJ_DIR)/main.o
 
 build_test_main: clean create_debug_dir
-	@$(CC) $(CFLAGS_DEBUG) $(SRC)/test_main.c -o $(DEBUG_OBJ_DIR)/test_main.o
+	$(CC) $(CFLAGS_DEBUG) $(SRC)/test_main.c -o $(DEBUG_OBJ_DIR)/test_main.o
 
 build_test: build_asm build_test_main build_impl
 	@$(LINKER) -m32 $(DEBUG_OBJ_DIR)/test_main.o $(DEBUG_OBJ_DIR)/funcs.o $(DEBUG_OBJ_DIR)/impl.o -o $(DEBUG_BIN_DIR)/test_main
@@ -36,10 +36,10 @@ build_asm: clean create_debug_dir
 	@$(ASMC) $(ASMFLAGS) $(SRC)/funcs.asm -o $(DEBUG_OBJ_DIR)/funcs.o
 
 run: build_debug
-	@$(DEBUG_BIN_DIR)/main
+	./integral
 
 debug: build_debug
-	@gdb -q $(DEBUG_BIN_DIR)/main
+	@gdb -q $(DEBUG_BIN_DIR)/integral
 
 test: build_test
 	$(DEBUG_BIN_DIR)/test_main
