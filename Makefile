@@ -20,7 +20,7 @@ build_impl: clean create_debug_dir
 		$(SRC)/impl.c -o \
 		$(DEBUG_OBJ_DIR)/impl.o
 
-build_debug: build_main build_asm build_impl
+build_debug: clean build_main build_asm build_impl
 	$(LINKER) -m32 \
 		$(DEBUG_OBJ_DIR)/main.o \
 		$(DEBUG_OBJ_DIR)/funcs.o \
@@ -42,7 +42,7 @@ build_test: build_asm build_test_main build_impl
 		$(DEBUG_OBJ_DIR)/test_main.o \
 		$(DEBUG_OBJ_DIR)/funcs.o \
 		$(DEBUG_OBJ_DIR)/impl.o \
-		-o $(DEBUG_BIN_DIR)/test_main
+		-o test_main
 
 build_asm: clean create_debug_dir
 	@$(ASMC) $(ASMFLAGS) \
@@ -58,7 +58,7 @@ debug: build_debug
 	@gdb -q $(DEBUG_BIN_DIR)/integral
 
 test: build_test
-	$(DEBUG_BIN_DIR)/test_main
+	./test_main
 
 clean:
 	@rm -rf build

@@ -2,7 +2,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#include "include/impl.h"
+#include "../include/impl.h"
 
 // Функции не из постановки задачи (для тестирования roots и integral)
 double sample_f1(double x) {
