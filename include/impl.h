@@ -3,11 +3,6 @@
 
 typedef double (fn)(double);
 
-// Функции из условия задачи
-extern double f1(double x);
-extern double f2(double x);
-extern double f3(double x);
-
 #define NUM_PARTITIONS 10000
 #define EPS 1e-9
 

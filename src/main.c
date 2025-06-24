@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <getopt.h>
 
-#include "impl.h"
+#include "../include/functions.h"
+#include "../include/impl.h"
 
 void find_roots(double* root1, double* root2, double* root3, int* total_iterations) {
     double x1 = -1.31;

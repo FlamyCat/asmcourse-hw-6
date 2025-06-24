@@ -2,7 +2,8 @@
 // Created by Aleksandr on 20.06.25.
 //
 
-#include "impl.h"
+#include "../include/impl.h"
+#include "../include/functions.h"
 
 #include <math.h>
 
